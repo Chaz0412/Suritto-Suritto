@@ -19,8 +19,12 @@ public class Pathfinding : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!nav.pathPending && nav.remainingDistance < 0.5f)
+        if (!nav.pathPending && nav.remainingDistance < 1000000000000000000f)
             GoToNextPoint();
+        if (!nav.pathPending && nav.remainingDistance > 150f)
+            nav.speed = 10;
+        if (!nav.pathPending && nav.remainingDistance < 150f)
+            nav.speed = 5;
     }
 
     void GoToNextPoint()
