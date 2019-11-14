@@ -5,36 +5,40 @@ using UnityEngine.AI;
 
 public class Pathfinding : MonoBehaviour
 {
+    public float deathDistance = 0.5f;
+    public float distanceAway;
+    public Transform thisObject;
+    public Transform target;
+    private NavMeshAgent navComponent;
 
-    public Transform[] points;
-
-    private NavMeshAgent nav;
-    private int destPoint;
-
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        nav = GetComponent<NavMeshAgent>();
+        target = GameObject.FindGameObjectWithTag("Player").transform;
+        navComponent = this.gameObject.GetComponent<NavMeshAgent>();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        if (!nav.pathPending && nav.remainingDistance < 1000000000000000000f)
-            GoToNextPoint();
-        if (!nav.pathPending && nav.remainingDistance > 150f)
-            nav.speed = 10;
-        if (!nav.pathPending && nav.remainingDistance < 150f)
-            nav.speed = 5;
-    }
+        float dist = Vector3.Distance(target.position, transform.position);
 
-    void GoToNextPoint()
-    {
-        if (points.Length == 0)
+        if(target)
         {
-            return;
+            navComponent.SetDestination(target.position);
         }
-
-        nav.destination = points[destPoint].position;
-        destPoint = (destPoint + 1) % points.Length;
+        else
+        {
+            if(target = null)
+            {
+                target = this.gameObject.GetComponent<Transform>();
+            }
+            else
+            {
+                target = GameObject.FindGameObjectWithTag("Player").transform;
+            }
+        }
+        if(dist <= deathDistance)
+        {
+            //kill
+        }
     }
 }
